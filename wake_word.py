@@ -12,12 +12,15 @@ def listen_for_wake_word():
         return False
 
     print("👂 Listening for wake word...")
-    text = transcribe_audio()
 
-    if text:
-        print(f"🗣 Heard: {text}")
-        if any(word in text.lower() for word in wake_words):
-            return True
+    # Continuously listen for wake word
+    while is_listening:
+        text = transcribe_audio()
+
+        if text:
+            print(f"🗣 Heard: {text}")
+            if any(word in text.lower() for word in wake_words):
+                return True
 
     return False
 
