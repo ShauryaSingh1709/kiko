@@ -23,25 +23,22 @@ def main():
 
             # --- MUSIC CONTROLS ---
             if "pause" in user_input_lower or "ruk jao" in user_input_lower:
-                stop_listening()  # Temporarily stop listening for wake word
-                pause_song()
-                speak("Music paused.")
-                resume_listening()  # Resume listening after action
+                stop_listening()
+                pause_song()  # Just speaks that it's not supported
+                resume_listening()
 
             elif "resume" in user_input_lower or "wapas bajao" in user_input_lower:
-                stop_listening()  # Temporarily stop listening for wake word
-                resume_song()
-                speak("Music resumed.")
-                resume_listening()  # Resume listening after action
+                stop_listening()
+                resume_song()  # Just speaks that it's not supported
+                resume_listening()
 
             elif "stop" in user_input_lower or "band kar do" in user_input_lower:
-                stop_listening()  # Temporarily stop listening for wake word
+                stop_listening()
                 stop_song()
-                speak("Music stopped.")
-                resume_listening()  # Resume listening after action
+                resume_listening()
 
             elif "play" in user_input_lower or "song sunao" in user_input_lower or "gaana bajao" in user_input_lower:
-                stop_listening()  # Temporarily stop listening for wake word
+                stop_listening()
                 song_name = user_input_lower.replace("play", "").replace("song", "").replace("sunao", "").replace("gaana", "").strip()
 
                 if not song_name:
@@ -50,28 +47,29 @@ def main():
 
                 if not song_name.strip():
                     speak("Sorry, I didn't get the song name. Please try again.")
+                    resume_listening()
                     continue
 
                 speak(f"Playing {song_name} now...")
-                threading.Thread(target=play_song, args=(song_name,)).start()  # Use threading to play song in the background
-                resume_listening()  # Resume listening after action
+                threading.Thread(target=play_song, args=(song_name,)).start()
+                resume_listening()
 
             # --- WEATHER ---
             elif "weather" in user_input_lower:
-                stop_listening()  # Temporarily stop listening for wake word
+                stop_listening()
                 speak("Please tell me the city name.")
                 city = transcribe_audio()
                 print(f"You said the city: {city}")
 
                 if not city.strip():
                     speak("I didn't hear the city name. Want to try again?")
-                    resume_listening()  # Resume listening after action
+                    resume_listening()
                     continue
 
                 weather_info = get_weather(city)
                 print(f"Kiko: {weather_info}")
                 speak(weather_info)
-                resume_listening()  # Resume listening after action
+                resume_listening()
 
             # --- GENERAL AI ---
             else:
