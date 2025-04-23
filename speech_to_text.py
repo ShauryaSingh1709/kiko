@@ -1,0 +1,17 @@
+import speech_recognition as sr
+
+def transcribe_audio():
+    recognizer = sr.Recognizer()
+    with sr.Microphone() as source:
+        print("🎙️ Listening...")
+        audio = recognizer.listen(source)
+
+    try:
+        text = recognizer.recognize_google(audio)
+        return text
+    except sr.UnknownValueError:
+        print("❌ Couldn't understand audio.")
+        return ""
+    except sr.RequestError as e:
+        print(f"🚫 Speech recognition error: {e}")
+        return ""
