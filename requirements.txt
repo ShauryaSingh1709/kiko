@@ -7,3 +7,7 @@ openai==1.23.2
 google-generativeai==0.3.2
 protobuf>=4.25.0
 grpcio>=1.51.0
+requests
+SpeechRecognition
+gTTS
+playsound
