@@ -22,22 +22,21 @@ def main():
 
             # --- MUSIC CONTROLS ---
             if "pause" in user_input_lower or "ruk jao" in user_input_lower:
-                stop_listening()
                 pause_song()
-                resume_listening()
+                speak("Pausing the music.")
+                continue  # No need to stop/resume listening
 
             elif "resume" in user_input_lower or "wapas bajao" in user_input_lower:
-                stop_listening()
                 resume_song()
-                resume_listening()
+                speak("Resuming the music.")
+                continue
 
             elif "stop" in user_input_lower or "band kar do" in user_input_lower:
-                stop_listening()
                 stop_song()
-                resume_listening()
+                speak("Stopping the music.")
+                continue
 
             elif "play" in user_input_lower or "song sunao" in user_input_lower or "gaana bajao" in user_input_lower:
-                stop_listening()
                 song_name = user_input_lower.replace("play", "").replace("song", "").replace("sunao", "").replace("gaana", "").strip()
 
                 if not song_name:
@@ -46,29 +45,22 @@ def main():
 
                 if not song_name or not song_name.strip():
                     speak("Sorry, I didn't get the song name. Please try again.")
-                    resume_listening()
                     continue
 
                 speak(f"Playing {song_name} now...")
                 threading.Thread(target=play_song, args=(song_name,)).start()
-                resume_listening()
 
             # --- WEATHER ---
             elif "weather" in user_input_lower:
-                stop_listening()
                 speak("Please tell me the city name.")
                 city = transcribe_audio()
-                print(f"You said the city: {city}")
-
                 if not city or not city.strip():
                     speak("I didn't hear the city name. Want to try again?")
-                    resume_listening()
                     continue
 
                 weather_info = get_weather(city)
                 print(f"Kiko: {weather_info}")
                 speak(weather_info)
-                resume_listening()
 
             # --- GENERAL AI ---
             else:
