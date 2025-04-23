@@ -13,23 +13,22 @@ def main():
         if listen_for_wake_word():
             speak("Hello")
             user_input = transcribe_audio()
-            print(f"You said: {user_input}")
-
-            if not user_input.strip():
+            if not user_input or not user_input.strip():
                 speak("Sorry, I didn't catch that. Please try again.")
                 continue
 
+            print(f"You said: {user_input}")
             user_input_lower = user_input.lower()
 
             # --- MUSIC CONTROLS ---
             if "pause" in user_input_lower or "ruk jao" in user_input_lower:
                 stop_listening()
-                pause_song()  # Just speaks that it's not supported
+                pause_song()
                 resume_listening()
 
             elif "resume" in user_input_lower or "wapas bajao" in user_input_lower:
                 stop_listening()
-                resume_song()  # Just speaks that it's not supported
+                resume_song()
                 resume_listening()
 
             elif "stop" in user_input_lower or "band kar do" in user_input_lower:
@@ -45,7 +44,7 @@ def main():
                     speak("Which song would you like me to play?")
                     song_name = transcribe_audio()
 
-                if not song_name.strip():
+                if not song_name or not song_name.strip():
                     speak("Sorry, I didn't get the song name. Please try again.")
                     resume_listening()
                     continue
@@ -61,7 +60,7 @@ def main():
                 city = transcribe_audio()
                 print(f"You said the city: {city}")
 
-                if not city.strip():
+                if not city or not city.strip():
                     speak("I didn't hear the city name. Want to try again?")
                     resume_listening()
                     continue
@@ -74,7 +73,7 @@ def main():
             # --- GENERAL AI ---
             else:
                 reply = get_response(user_input)
-                if not reply.strip():
+                if not reply or not reply.strip():
                     speak("Sorry, I couldn't think of a response.")
                 else:
                     print(f"Kiko: {reply}")
