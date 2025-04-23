@@ -1,8 +1,9 @@
-import google.generativeai as genai
+import requests
+import json
 from weatherapi import get_weather
 
-genai.configure(api_key="AIzaSyCU4xhPKQsID8ynwRdYpnsb4L4OBQDTuc0")
-model = genai.GenerativeModel(model_name="models/gemini-1.5-pro-latest")
+API_KEY = "AIzaSyCU4xhPKQsID8ynwRdYpnsb4L4OBQDTuc0"
+API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=" + API_KEY
 
 def get_response(prompt):
     prompt_lower = prompt.lower()
@@ -17,5 +18,18 @@ def get_response(prompt):
     elif "who are you" in prompt_lower:
         return "I am Kiko, your friendly AI assistant, built by Adi and Shaurya to help you out."
 
-    response = model.generate_content(prompt)
-    return response.text
+    headers = {"Content-Type": "application/json"}
+    data = {
+        "contents": [
+            {
+                "parts": [{"text": prompt}]
+            }
+        ]
+    }
+
+    try:
+        response = requests.post(API_URL, headers=headers, data=json.dumps(data))
+        result = response.json()
+        return result["candidates"][0]["content"]["parts"][0]["text"]
+    except Exception as e:
+        return f"Error: {e}"
