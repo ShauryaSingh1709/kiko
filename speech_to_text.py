@@ -2,6 +2,12 @@ import speech_recognition as sr
 
 def transcribe_audio():
     recognizer = sr.Recognizer()
+    
+    # Ensure the microphone is available
+    mic_list = sr.Microphone.list_microphone_names()
+    if not mic_list:
+        print("❌ No microphones found.")
+        return ""
 
     try:
         with sr.Microphone() as source:
@@ -27,5 +33,5 @@ def transcribe_audio():
         print("❌ Couldn't understand audio.")
         return ""
     except sr.RequestError as e:
-        print(f"🚫 Speech recognition error: {e}")
+        print(f"🚫 Speech recognition error: {e}") 
         return ""
